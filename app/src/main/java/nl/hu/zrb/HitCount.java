@@ -11,13 +11,16 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class HitCount extends Activity implements Runnable {
+public class HitCount extends AppCompatActivity implements Runnable {
 	TextView tv;
     
     @Override
@@ -25,14 +28,7 @@ public class HitCount extends Activity implements Runnable {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         tv = (TextView) findViewById(R.id.textview1);
-		Button b = (Button)findViewById(R.id.button1);
-		b.setOnClickListener(new OnClickListener(){
-			public void onClick(View arg0) {
-				tv.setText("wachten...");
-					new Thread(HitCount.this).start();
-					
-			}
-		});                
+
     }
     
     private Handler myHandler = new Handler() {
@@ -59,4 +55,26 @@ public class HitCount extends Activity implements Runnable {
 		} 
 
     }
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main_menu, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		int id = item.getItemId();
+		if(id == R.id.connect_item){
+			tv.setText("wachten...");
+			new Thread(this).start();
+			return true;
+		}
+		return false;
+
+	}
 }
